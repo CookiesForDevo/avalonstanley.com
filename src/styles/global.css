@@ -1,1 +1,152 @@
 @import "tailwindcss";
+
+@theme static {
+	--color-global-text: oklch(0.9851 0 0);
+	--color-global-surface: oklch(0.0847 0 0);
+
+	--color-theme-100: oklch(0.4229 0.1529 26.13);
+
+	--color-white: #fff;
+
+	--tw-duration: 500ms;
+
+	--font-sans: "Work Sans";
+}
+
+@utility aligncontent {
+	grid-column: content;
+}
+
+@utility alignwide {
+	grid-column: wide;
+}
+
+@utility alignfull {
+	grid-column: full;
+}
+
+@utility startcontent {
+	grid-column-start: content;
+}
+
+@utility startwide {
+	grid-column-start: wide;
+}
+
+@utility startfull {
+	grid-column-start: full;
+}
+
+@utility endcontent {
+	grid-column-end: content;
+}
+
+@utility endwide {
+	grid-column-end: wide;
+}
+
+@utility endfull {
+	grid-column-end: full;
+}
+
+@utility no-wrap {
+	white-space: nowrap;
+}
+
+@utility owl {
+	& > * + * {
+		margin-top: 1em;
+	}
+}
+
+@layer base {
+	@font-face {
+		font-family: "Work Sans";
+		src: url("/fonts/work-sans.300.woff2") format("woff2");
+		font-weight: 300;
+		font-style: normal;
+		font-display: swap;
+	}
+
+	:root {
+		--archer-grid-full: clamp(1.25rem, -15rem + 25vw, 12rem);
+		--archer-grid-wide: 0;
+		--archer-grid-content: 3fr;
+		--archer-grid-pre-content: 0;
+		--archer-grid-post-content: 0;
+
+		--archer-anchor: var(--color-global-text);
+		--archer-anchor-hover: var(--color-theme-100);
+	}
+
+	* {
+		margin-top: 0;
+		margin-bottom: 0;
+		text-align: inherit;
+		font-family: inherit;
+		border: 0 solid currentcolor;
+
+		&,
+		*::before,
+		*::after {
+			box-sizing: inherit;
+			transition: none var(--tw-duration) ease;
+		}
+	}
+
+	html {
+		box-sizing: border-box;
+		scroll-behavior: smooth;
+		overflow-x: clip;
+	}
+
+	body {
+		background:
+			linear-gradient(
+				to bottom,
+				color-mix(in oklch, var(--color-global-surface), transparent 90%),
+				color-mix(in oklch, var(--color-global-surface), transparent 25%)
+			),
+			no-repeat top center url(background.avif);
+		color: var(--color-global-text);
+		overflow-x: clip;
+		font-weight: 300;
+	}
+
+	:is([href]:not(.interface)) {
+		color: var(--archer-anchor);
+		transition-property: color;
+	}
+
+	:is([href]:not(.interface)):hover {
+		color: var(--archer-anchor-hover);
+	}
+}
+
+@layer components {
+	.grid-layout {
+		display: grid;
+		grid-auto-rows: min-content;
+		grid-template-columns:
+			[full-start] var(--archer-grid-full)
+			[wide-start] minmax(0, var(--archer-grid-wide))
+			[pre-content-start] minmax(0, var(--archer-grid-pre-content))
+			[pre-content-end content-start] minmax(0, var(--archer-grid-content))
+			[content-end post-content-start] minmax(
+				0,
+				var(--archer-grid-post-content)
+			)
+			[post-content-end] minmax(0, var(--archer-grid-wide))
+			[wide-end] var(--archer-grid-full)
+			[full-end];
+
+		@media (min-width: 62em) {
+			--archer-grid-pre-content: 0.5fr;
+			--archer-grid-post-content: 0.5fr;
+		}
+	}
+
+	.grid-layout > :not(.alignwide, .alignfull) {
+		grid-column: content;
+	}
+}
