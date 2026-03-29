@@ -107,7 +107,7 @@
 				color-mix(in oklch, var(--color-global-surface), transparent 90%),
 				color-mix(in oklch, var(--color-global-surface), transparent 25%)
 			),
-			no-repeat top center url(background.avif);
+			no-repeat top center url(/background.avif);
 		color: var(--color-global-text);
 		overflow-x: clip;
 		font-weight: 300;
